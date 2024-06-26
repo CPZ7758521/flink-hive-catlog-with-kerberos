@@ -1,5 +1,7 @@
 package com.pandora.www;
 
+import com.pandora.www.config.Config;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.cfg.ConfigOverride;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 
 public class Flink_hive_catalog_with_kerberos {
@@ -19,6 +22,13 @@ public class Flink_hive_catalog_with_kerberos {
     private static Logger LOG = LoggerFactory.getLogger(Flink_hive_catalog_with_kerberos.class);
 
     public static void main(String[] args) {
+        URL hadoopURL = Flink_hive_catalog_with_kerberos.class.getClassLoader().getResource(Config.env + "/hadoopConf");
+
+        URL hiveURL = Flink_hive_catalog_with_kerberos.class.getClassLoader().getResource(Config.env + "/hiveConf");
+
+        hadoopConfPath = hadoopURL.getPath();
+        hiveConfPath = hiveURL.getPath();
+
         try {
 //            System.setProperty("https.protocols", "TLSv1.1,TLSv1.2");
 //            System.setProperty("jdk.tls.client.protocols", "TLSv1.1,TLSv1.2");
