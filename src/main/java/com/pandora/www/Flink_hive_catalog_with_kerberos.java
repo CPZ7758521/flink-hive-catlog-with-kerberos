@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Flink_hive_catalog_with_kerberos {
     static Configuration conf;
@@ -61,5 +62,19 @@ public class Flink_hive_catalog_with_kerberos {
         String sql = "select * from test.testa";
         tableEnv.executeSql(sql);
 
+        //use udf
+        //todo 也可以这样用，
+        tableEnv.createTemporaryFunction("udf_testudf", Flink_udf_test.class);
+//        tableEnv.executeSql("SHOW MODULES").print();
+//
+//        LOG.info("built-in");
+//        String[] functionsArr = tableEnv.listFunctions();
+//        Arrays.stream(functionsArr).forEach(System.out::println);
+//        LOG.info("udf");
+//        String[] udfArr = tableEnv.listUserDefinedFunctions();
+//        Arrays.stream(udfArr).forEach(System.out::println);
+//
+//        tableEnv.executeSql("create temporary function udf_testudf as 'com.pandora.www.hiveUdf.testUdf'");
+//        tableEnv.executeSql("select udf_testudf()");
     }
 }
